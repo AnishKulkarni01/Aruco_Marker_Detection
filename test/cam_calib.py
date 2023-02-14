@@ -43,7 +43,7 @@ files = os.listdir(image_dir_path)
 for file in files:
     print(file)
     imagePath = os.path.join(image_dir_path, file)
-    # print(imagePath)
+    
 
     image = cv.imread(imagePath)
     grayScale = cv.cvtColor(image, cv.COLOR_BGR2GRAY)
