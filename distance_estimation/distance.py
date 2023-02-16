@@ -34,6 +34,7 @@ while True:
         gray_frame, marker_dict, parameters=param_markers
     )
     if marker_corners:
+        #getting rotational and translational vectors for all markers
         rVec,tVec,_= aruco.estimatePoseSingleMarkers(marker_corners,MARKER_SIZE,cam_mat,dist_coef)
         total_markers=range(0,marker_IDs.size)
         for ids, corners ,i in zip(marker_IDs, marker_corners,total_markers):
@@ -47,17 +48,32 @@ while True:
             top_left = corners[1].ravel()
             bottom_right = corners[2].ravel()
             bottom_left = corners[3].ravel()
-
-            #drawing axes on markers
-            point = cv.drawFrameAxes(frame, cam_mat, dist_coef, rVec[i], tVec[i], 10, 10)
-            #display id on top_right corner
+            
+             # Calculating the distance of the 3D vector, tvec[i][0][0] represents component of vector along x-axis
+            distance = np.sqrt(
+                tVec[i][0][2] ** 2 + tVec[i][0][0] ** 2 + tVec[i][0][1] ** 2
+            )
+            #drawing axes on markers (x:red, y:green , z:blue)
+            point = cv.drawFrameAxes(frame, cam_mat, dist_coef, rVec[i], tVec[i],6 , 6)
+            #display id, distance on top_right corner
             cv.putText(
                 frame,
-                f"id: {ids[0]}",
+                f"id: {ids[0]}  Dist: {round(distance, 2)}",
                 top_right,
                 cv.FONT_HERSHEY_PLAIN,
                 1.3,
                 (0, 255, 0),
+                2,
+                cv.LINE_AA,
+            )
+            #displaying x,y coordinates on bottom right corner
+            cv.putText(
+                frame,
+                f"x:{round(tVec[i][0][0],1)} y: {round(tVec[i][0][1],1)} ",
+                bottom_right,
+                cv.FONT_HERSHEY_PLAIN,
+                1.0,
+                (0, 0, 255),
                 2,
                 cv.LINE_AA,
             )
