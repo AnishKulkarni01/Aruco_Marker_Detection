@@ -3,10 +3,10 @@ import os
 import numpy as np
 
 # Checker board size
-CHESS_BOARD_DIM = (9, 6)
+CHESS_BOARD_DIM = (9, 7)
 
 # The size of Square in the checker board.
-SQUARE_SIZE = 14  # millimeters
+SQUARE_SIZE = 20  # millimeters
 
 # termination criteria
 criteria = (cv.TERM_CRITERIA_EPS + cv.TERM_CRITERIA_MAX_ITER, 30, 0.001)
@@ -23,9 +23,10 @@ if not CHECK_DIR:
 else:
     print(f'"{calib_data_path}" Directory already Exists.')
 
-# prepare object points, like (0,0,0), (1,0,0), (2,0,0) ....,(6,5,0)
+# preparing object points, obj_3D is 2D array with 3 cols
 obj_3D = np.zeros((CHESS_BOARD_DIM[0] * CHESS_BOARD_DIM[1], 3), np.float32)
 
+#modifying the first 2 columns of obj_3D
 obj_3D[:, :2] = np.mgrid[0 : CHESS_BOARD_DIM[0], 0 : CHESS_BOARD_DIM[1]].T.reshape(
     -1, 2
 )
@@ -62,7 +63,7 @@ ret, mtx, dist, rvecs, tvecs = cv.calibrateCamera(
 )
 print("calibrated")
 
-print("duming the data into one files using numpy ")
+print("dumping data into one file using numpy ")
 np.savez(
     f"{calib_data_path}/MultiMatrix",
     camMatrix=mtx,
@@ -73,7 +74,7 @@ np.savez(
 
 print("-------------------------------------------")
 
-print("loading data stored using numpy savez function\n \n \n")
+print("loading stored data\n \n \n")
 
 data = np.load(f"{calib_data_path}/MultiMatrix.npz")
 

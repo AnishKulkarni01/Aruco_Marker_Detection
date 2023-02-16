@@ -5,7 +5,7 @@ CHESS_BOARD_DIM = (9, 7)
 
 n = 0  # image_counter
 
-# checking if  images dir is exist not, if not then create images directory
+# checking if  images dir exists 
 image_dir_path = "images_cam"
 
 CHECK_DIR = os.path.isdir(image_dir_path)
@@ -16,13 +16,15 @@ if not CHECK_DIR:
 else:
     print(f'"{image_dir_path}" Directory already Exists.')
 
-criteria = (cv.TERM_CRITERIA_EPS + cv.TERM_CRITERIA_MAX_ITER, 30, 0.001)
+#termination criteria for k-means algorithm
+criteria = (cv.TERM_CRITERIA_EPS + cv.TERM_CRITERIA_MAX_ITER, 30, 0.001) #epsilon parameter (min change req to stop algo) and no. of iterations
+
 
 def detect_checker_board(image, grayImage, criteria, boardDimension):
     ret, corners = cv.findChessboardCorners(grayImage, boardDimension)
     if ret == True:
-        corners1 = cv.cornerSubPix(grayImage, corners, (3, 3), (-1, -1), criteria)
-        image = cv.drawChessboardCorners(image, boardDimension, corners1, ret)
+        corners1 = cv.cornerSubPix(grayImage, corners, (3, 3), (-1, -1), criteria)  #refined corner positions
+        image = cv.drawChessboardCorners(image, boardDimension, corners1, ret) #drawing circles on refined corners
 
     return image, ret
 
@@ -35,7 +37,7 @@ while True:
     gray = cv.cvtColor(frame, cv.COLOR_BGR2GRAY)
 
     image, board_detected = detect_checker_board(frame, gray, criteria, CHESS_BOARD_DIM)
-    # print(ret)
+    # displaying saved images count
     cv.putText(
         frame,
         f"saved_img : {n}",
