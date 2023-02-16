@@ -1,7 +1,7 @@
 Steps to run code:
-
-pip install virtualenv
-virtualenv aruco
-Aruco\scripts\activate
+#creating virtual env </br>
+pip install virtualenv </br>
+virtualenv aruco </br>
+Aruco\scripts\activate </br>
 
 pip install opencv-contrib-python
