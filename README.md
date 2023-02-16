@@ -1,4 +1,3 @@
-# Aruco Marker detection and distance estimation
 
 ## Setup
 ### Creating virtual environment
