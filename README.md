@@ -1,7 +1,7 @@
 <b>Setup</b> </br></br>
-#creating virtual env </br>
+<b>#creating virtual env</b> </br>
 pip install virtualenv </br>
 virtualenv aruco </br>
-Aruco\scripts\activate </br></br>
- #installing dependency</br>
+aruco\scripts\activate </br></br>
+ <b>#installing dependency</b></br>
 pip install opencv-contrib-python
